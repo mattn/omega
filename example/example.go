@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/mattn/M"
+	"github.com/mattn/omega"
 	"strings"
 	"time"
 )
@@ -10,10 +10,10 @@ import (
 func main() {
 	values := []interface{}{"333", 2, "foo", "boo", "zoo"}
 
-	r := M.A(values).Map(M.S).
-		Map(func(v M.Value) M.Value {
+	r := ω.A(values).Map(ω.S).
+		Map(func(v ω.Value) ω.Value {
 			return v.(string) + " " + time.Now().String()
-		}).Filter(func(v M.Value) bool {
+		}).Filter(func(v ω.Value) bool {
 			return strings.Index(v.(string), "o") != -1
 		}).N([]string(nil))
 
