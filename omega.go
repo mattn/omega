@@ -33,10 +33,29 @@ func A(v interface{}) Slice {
 	return t.Interface().([]interface{})
 }
 
-func (s Slice) N(v interface{}) interface{} {
+func (s Slice) C(v interface{}) interface{} {
 	rs := reflect.ValueOf(s)
 	la := reflect.ValueOf(s).Len()
 	t := reflect.MakeSlice(reflect.TypeOf(v), la, la)
+	for i := 0; i < la; i++ {
+		se := rs.Index(i).Elem()
+		te := t.Index(i)
+		if se.Type().ConvertibleTo(te.Type()) {
+			te.Set(se.Convert(te.Type()))
+		} else {
+			te.Set(se)
+		}
+	}
+	return t.Interface()
+}
+
+func (s Slice) N() interface{} {
+	if len(s) == 0 {
+		return s
+	}
+	rs := reflect.ValueOf(s)
+	la := reflect.ValueOf(s).Len()
+	t := reflect.MakeSlice(reflect.SliceOf(reflect.TypeOf(s[0])), la, la)
 	for i := 0; i < la; i++ {
 		se := rs.Index(i).Elem()
 		te := t.Index(i)

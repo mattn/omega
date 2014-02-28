@@ -15,7 +15,7 @@ func main() {
 			return v.(string) + " " + time.Now().String()
 		}).Filter(func(v ω.Value) bool {
 			return strings.Index(v.(string), "o") != -1
-		}).N([]string(nil))
+		}).N()
 
 	for _, v := range r.([]string) {
 		fmt.Println(v)
